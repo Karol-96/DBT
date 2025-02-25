@@ -1,0 +1,11 @@
+ customer_360_project:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: karolbhandari
+      password: P@ssword7178
+      port: 5432
+      dbname: customer_data
+      schema: dbt_transformations
