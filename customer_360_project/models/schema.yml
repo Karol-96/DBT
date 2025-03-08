@@ -1,0 +1,65 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: customer_data
+    schema: raw_data
+    tables:
+      - name: customers
+        columns:
+          - name: customer_id
+            tests:
+              - unique
+              - not_null
+      - name: orders
+        columns:
+          - name: order_id
+            tests:
+              - unique
+              - not_null
+      - name: website_activity
+        columns:
+          - name: activity_id
+            tests:
+              - unique
+              - not_null
+
+models:
+  - name: stg_customers
+    description: "Standardized customer data"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: email
+        tests:
+          - not_null
+
+  - name: stg_orders
+    description: "Standardized order data"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_website_activity
+    description: "Standardized website activity data"
+    columns:
+      - name: activity_id
+        tests:
+          - unique
+          - not_null
+
+  - name: customer_360
+    description: "Complete customer view including orders and website activity"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: total_orders
+        description: "Total number of orders placed by the customer"
+      - name: total_spent
+        description: "Total amount spent by the customer"

@@ -1,0 +1,30 @@
+ version: 2
+
+models:
+  - name: fct_user_daily_metrics
+    description: "Daily user metrics including engagement and conversion data"
+    columns:
+      - name: user_pseudo_id
+        description: "Unique identifier for the user"
+        tests:
+          - not_null
+          - unique:
+              combination_of: ['user_pseudo_id', 'event_date']
+      
+      - name: event_date
+        description: "Date of the events"
+        tests:
+          - not_null
+          - dbt_utils.date_between:
+              min_value: '2021-01-01'
+              max_value: '{{ modules.datetime.date.today() }}'
+
+      - name: engagement_score
+        description: "Weighted score based on user actions"
+        tests:
+          - not_null
+          - positive_value
+
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "conversion_rate >= 0 and conversion_rate <= 1"
